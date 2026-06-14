@@ -110,7 +110,7 @@ await trip.save();
  let images=null;
  if(trip.destination){
 
-        const API_BASE = import.meta.env.VITE_BACKEND_URL;
+        const API_BASE = process.env.BACKEND_URL;
         //const res = await fetch(`http://localhost:4000/api/images/${encodeURIComponent(trip.destination)}`);
         const res = await fetch(
           `${API_BASE}/api/images/${encodeURIComponent(trip.destination)}`
