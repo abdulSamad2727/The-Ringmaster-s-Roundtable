@@ -128,8 +128,8 @@ const CompareTwoDestination = () => {
   const [rawData, setRawData] = useState(null);
 
   // Hardcoded backend API URL
-  const API_URL = 'http://localhost:4000/api/compare';
-
+  //const API_URL = 'http://localhost:4000/api/compare';
+  const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/compare`;
   // ------------------------------------------------------------------
   // ✅ Markdown → HTML Formatter
   // ------------------------------------------------------------------

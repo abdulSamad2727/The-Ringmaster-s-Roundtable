@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Trash2, FolderPlus } from "lucide-react";
 import { useTrip } from "../contexts/TripContext";
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL;
+
 export default function RightSidebar() {
   const {
     activeTab, setActiveTab,
@@ -26,11 +28,17 @@ export default function RightSidebar() {
   useEffect(() => {
     async function fetchTabs() {
       try {
-        const response = await fetch("http://localhost:4000/api/tabs", {
+        // const response = await fetch("http://localhost:4000/api/tabs", {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({ userId }),
+        // });
+        const response = await fetch(`${API_BASE}/api/tabs`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId }),
         });
+
         const data = await response.json();
         setTabs(data);
       } catch (err) {
@@ -44,11 +52,22 @@ export default function RightSidebar() {
     setTabId(tab.tabId);
     setSelectedTabId(tab.tabId);
     try {
-      const response = await fetch("http://localhost:4000/api/mcp-server/tripDetails", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, tripId: tab.tabId }),
-      });
+      // const response = await fetch("http://localhost:4000/api/mcp-server/tripDetails", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ userId, tripId: tab.tabId }),
+      // });
+      const response = await fetch(
+        `${API_BASE}/api/mcp-server/tripDetails`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            tripId: tab.tabId,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -73,11 +92,21 @@ export default function RightSidebar() {
   const handleCreateNewTab = async () => {
     if (!newTabName.trim()) return;
     try {
-      const res = await fetch("http://localhost:4000/api/tabs/createTab", {
+      // const res = await fetch("http://localhost:4000/api/tabs/createTab", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ userId, tabName: newTabName }),
+      // });
+
+      const res = await fetch(`${API_BASE}/api/tabs/createTab`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, tabName: newTabName }),
+        body: JSON.stringify({
+          userId,
+          tabName: newTabName,
+        }),
       });
+
       const data = await res.json();
       setTabId(data.tabId);
       setSelectedTabId(data.tabId);
@@ -91,11 +120,18 @@ export default function RightSidebar() {
       setEvents([]);
       setAIResult("");
 
-      const updated = await fetch("http://localhost:4000/api/tabs", {
+      // const updated = await fetch("http://localhost:4000/api/tabs", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ userId }),
+      // });
+
+      const updated = await fetch(`${API_BASE}/api/tabs`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId }),
       });
+
       setTabs(await updated.json());
     } catch (err) {
       console.error("Error creating new tab:", err);
@@ -106,11 +142,21 @@ export default function RightSidebar() {
     if (!window.confirm("Are you sure you want to delete this tab?")) return;
     setLoading(true);
     try {
-      await fetch("http://localhost:4000/api/tabs/deleteTab", {
+      // await fetch("http://localhost:4000/api/tabs/deleteTab", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ userId, tabId }),
+      // });
+
+      await fetch(`${API_BASE}/api/tabs/deleteTab`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, tabId }),
+        body: JSON.stringify({
+          userId,
+          tabId,
+        }),
       });
+
       setTabs((prev) => prev.filter((t) => t.tabId !== tabId));
       if (selectedTabId === tabId) setSelectedTabId(null);
     } catch (err) {

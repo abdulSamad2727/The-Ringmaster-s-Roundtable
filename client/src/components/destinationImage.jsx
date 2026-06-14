@@ -10,8 +10,14 @@ export default function TestDestinationImages() {
     setLoading(true);
 
     try {
+      // const res = await fetch(
+      //   `http://localhost:4000/api/images/${encodeURIComponent(destination)}`
+      // );
+
+      const API_BASE = import.meta.env.VITE_BACKEND_URL;
+
       const res = await fetch(
-        `http://localhost:4000/api/images/${encodeURIComponent(destination)}`
+        `${API_BASE}/api/images/${encodeURIComponent(destination)}`
       );
       const data = await res.json();
       // Backend returns array of {id, description, url}

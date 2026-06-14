@@ -37,7 +37,13 @@ export default function PlanByPrompt() {
 
     setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:4000/api/mcp-server", {
+      const API_BASE = import.meta.env.VITE_BACKEND_URL;
+      // const response = await fetch("http://localhost:4000/api/mcp-server", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ prompt, userId, tripId: tabId }),
+      // });
+      const response = await fetch(`${API_BASE}/api/mcp-server`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt, userId, tripId: tabId }),

@@ -109,8 +109,13 @@ trip.finalResponse = finalResponse;
 await trip.save();
  let images=null;
  if(trip.destination){
-         const res = await fetch(`http://localhost:4000/api/images/${encodeURIComponent(trip.destination)}`);
-         images=await res.json();
+
+        const API_BASE = import.meta.env.VITE_BACKEND_URL;
+        //const res = await fetch(`http://localhost:4000/api/images/${encodeURIComponent(trip.destination)}`);
+        const res = await fetch(
+          `${API_BASE}/api/images/${encodeURIComponent(trip.destination)}`
+        );
+        images=await res.json();
  }
 
   res.json({

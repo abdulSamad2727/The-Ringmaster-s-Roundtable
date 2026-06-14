@@ -156,11 +156,18 @@ const Dashboard = () => {
 
     const handleProfileUpdate = async (updatedUser) => {
     try {
-        const response = await fetch("http://localhost:4000/api/user/update", {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedUser),
-        });
+        // const response = await fetch("http://localhost:4000/api/user/update", {
+        //     method: "PUT",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify(updatedUser),
+        // });
+        
+        const API_BASE = import.meta.env.VITE_BACKEND_URL;
+        const response = await fetch(`${API_BASE}/api/user/update`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedUser),
+            });
 
         const data = await response.json();
 
